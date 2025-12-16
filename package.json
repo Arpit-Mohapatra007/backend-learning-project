@@ -1,0 +1,28 @@
+{
+  "name": "backend-practice-project",
+  "version": "1.0.0",
+  "description": "practice project",
+  "keywords": [
+    "node",
+    "js"
+  ],
+  "homepage": "https://github.com/Arpit-Mohapatra007/backend-practice-project#readme",
+  "bugs": {
+    "url": "https://github.com/Arpit-Mohapatra007/backend-practice-project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arpit-Mohapatra007/backend-practice-project.git"
+  },
+  "license": "ISC",
+  "author": "dreadX",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4"
+  }
+}
