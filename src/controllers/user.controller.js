@@ -178,14 +178,14 @@ const refreshAccessToken = asyncHandler(async (req,res)=>{
             secure: true
         }
     
-        const {accessToken,newRefreshToken} = await generateAccessAndRefreshTokens(user._id);
+        const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id);
     
         return res.status(200)
             .cookie("accessToken",accessToken,options)
-            .cookie("refreshToken",newRefreshToken,options)
+            .cookie("refreshToken",refreshToken,options)
             .json(
                 new ApiResponse(200,{
-                    accessToken,newRefreshToken
+                    accessToken,refreshToken
                 },"Access token refreshed successfully !!")
             )
     } catch (error) {
@@ -219,7 +219,9 @@ export {changeCurrentPassword}
 
 const getCurrentUser = asyncHandler(async(req,res)=>{
     return res.status(200)
-        .json(200,req.user,"Current user fetched successfully !!")
+        .json(
+            new ApiResponse(200,req.user,"Current user fetched successfully !!")
+        )
 })
 
 export {getCurrentUser}
@@ -257,7 +259,7 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
         throw new ApiError(500,"Error while uploading on cloud !!")
     }
 
-    await User.findByIdAndUpdate(req.user?._id,{
+    const user = await User.findByIdAndUpdate(req.user?._id,{
         $set: {
             avatar: avatar.url
         }
@@ -284,7 +286,7 @@ const updateUserCoverImage = asyncHandler(async(req,res)=>{
         throw new ApiError(500,"Error while uploading on cloud !!")
     }
 
-    await User.findByIdAndUpdate(req.user?._id,{
+    const user = await User.findByIdAndUpdate(req.user?._id,{
         $set: {
             coverImage: coverImage.url
         }
