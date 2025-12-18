@@ -6,7 +6,6 @@ import {ApiResponse} from "../utils/apiResponse.js"
 import jwt from "jsonwebtoken";
 
 import fs from "fs"
-import { subscribe } from "diagnostics_channel";
 import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId)=>{
@@ -50,7 +49,9 @@ const registerUser = asyncHandler(async (req,res)=>{
 
     if(existedUser){
         fs.unlinkSync(avatarLocalPath);
-        fs.unlinkSync(coverImageLocalPath);
+        if(coverImageLocalPath){
+             fs.unlinkSync(coverImageLocalPath);
+        }
         throw new ApiError(409,"User already registered !!")
     }
     // upload images to cloudinary
@@ -381,6 +382,8 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
                     req.user._id
                 )
             },
+        },
+        {
             $lookup: {
                 from: "videos",
                 localField: "watchHistory",
